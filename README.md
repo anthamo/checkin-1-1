@@ -35,6 +35,12 @@ Tout le contenu éditorial (familles, définitions, pistes de discussion) se tro
 - SVG généré à la volée pour la roue. Police [Archivo](https://fonts.google.com/specimen/Archivo).
 - Design system « Hot Magenta », partagé avec [Referandom](https://github.com/anthamo/Referandom).
 
+## La roue
+
+Basée sur la **roue des émotions de Robert Plutchik** (1980) : 8 émotions primaires, chacune déclinée en 3 intensités (du centre vers l'extérieur), plus les dyades (combinaisons entre familles voisines : amour, soumission, optimisme…). Les couleurs reprennent ce modèle, recalibrées pour l'accessibilité.
+
+Référence : [Plutchik's wheel of emotions (Wikipedia)](https://en.wikipedia.org/wiki/Emotion_classification#Plutchik's_wheel_of_emotions).
+
 ## Licence
 
 MIT · par [anthamo](https://github.com/anthamo)

@@ -241,12 +241,18 @@
     .stage { margin-top: 30px; }
     .panel { margin-top: 24px; }
     #detail { padding: 14px 0; }
+    /* pendant le choix d'intensité : focus total sur les 3 cartes, on masque le reste */
+    body.intensity #home > .badge,
+    body.intensity #home > h1,
+    body.intensity #home > .consigne,
+    body.intensity #selPanel { display: none; }
+    body.intensity .stage { margin-top: 0; }
   }
 </style>
 </head>
 <body>
 <div id="bg-decor"></div>
-<div class="wrap">
+<div class="wrap" id="home">
   <span class="badge">Check-in 1:1</span>
   <h1>Comment tu te sens, là, maintenant ?</h1>
   <p class="consigne">Choisis jusqu'à <b>2 émotions</b> qui décrivent ton humeur du moment.</p>
@@ -552,8 +558,12 @@ function openFamily(branch) {
   });
   stage.classList.add("detailing");
   detail.classList.add("show");
+  document.body.classList.add("intensity"); // mobile : masque en-tête + sélection (CSS gated hover:none)
 }
-function closeFamily() { stage.classList.remove("detailing"); detail.classList.remove("show"); }
+function closeFamily() {
+  stage.classList.remove("detailing"); detail.classList.remove("show");
+  document.body.classList.remove("intensity");
+}
 
 // ===== Sélection (panneau léger) =====
 const selPanel = document.getElementById("selPanel");
