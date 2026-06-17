@@ -43,4 +43,6 @@ Référence : [Plutchik's wheel of emotions (Wikipedia)](https://en.wikipedia.or
 
 ## Licence
 
-MIT · par [anthamo](https://github.com/anthamo)
+[MIT](LICENSE). Libre d'usage, de modification et de partage.
+
+Le contenu éditorial (`emotions.js` : familles, définitions, pistes de discussion) est couvert par la même licence MIT : libre de le reprendre, l'adapter et le partager.
