@@ -6,7 +6,7 @@ Une **roue des émotions** interactive pour ouvrir un 1:1. La personne choisit j
 
 ## Pourquoi
 
-En début de 1:1 (ou de réunion), poser une météo émotionnelle aide chacun à prendre en compte l'état de la personne en face, sans surinterpréter. La version "image zoomée sur Notion" était pénible. Celle-ci est cliquable, lisible, et débouche sur une vraie amorce de conversation.
+En début de 1:1 (ou de réunion), poser une météo émotionnelle aide chacun à prendre en compte l'état de la personne en face, sans surinterpréter. 
 
 Le **consentement est explicite** : on entre par un sas où l'on peut passer son tour. Un check-in émotionnel ne se subit pas.
 
@@ -27,13 +27,12 @@ python3 -m http.server
 
 ## Éditer le contenu
 
-Tout le contenu éditorial (familles, définitions, pistes de discussion) vit dans **`emotions.js`**, séparé de la logique. Le schéma est documenté en tête du fichier : tu peux retoucher un mot ou une question sans toucher au code de la roue.
+Tout le contenu éditorial (familles, définitions, pistes de discussion) se trouve dans **`emotions.js`**, séparé de l'interface. Le schéma est documenté en tête du fichier : tu peux retoucher un mot ou une question sans toucher au code de la roue.
 
 ## Stack
 
 - HTML / CSS / JS, **un seul fichier** (`index.html`) + les données (`emotions.js`).
 - SVG généré à la volée pour la roue. Police [Archivo](https://fonts.google.com/specimen/Archivo).
-- Zéro dépendance, zéro build. Couleurs calibrées WCAG AA.
 - Design system « Hot Magenta », partagé avec [Referandom](https://github.com/anthamo/Referandom).
 
 ## Licence
