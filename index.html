@@ -78,17 +78,25 @@
     letter-spacing: 0.06em; fill: var(--hint);
   }
 
-  /* ===== Panneau intermédiaire (mobile only) : émotion + description ===== */
+  /* ===== Panneau intermédiaire (mobile only) : carte style récap ===== */
   #famIntro {
     position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center; padding: 0 8px;
+    padding: 0 8px;
     opacity: 0; transform: scale(.96); pointer-events: none;
     transition: opacity .22s ease, transform .22s ease;
   }
   #famIntro.show { opacity: 1; transform: none; pointer-events: auto; }
-  .fi-name { font-size: 26px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.01em; color: var(--accent); }
-  .fi-def { margin: 14px 0 0; font-size: 15.5px; font-weight: 500; line-height: 1.5; color: var(--ink-soft); max-width: 30ch; }
-  .fi-actions { display: flex; gap: 10px; margin-top: 28px; }
+  .fi-inner { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 14px; }
+  .fi-card {
+    background: #fff; border: 1.8px solid #ff2e88; box-shadow: 4px 4px 0 #e0186b;
+    border-radius: 3px; overflow: hidden; text-align: left;
+  }
+  .fi-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: var(--soft); border-bottom: 1px solid var(--line); }
+  .fi-dot { width: 14px; height: 14px; border-radius: 50%; flex: none; box-shadow: 0 0 0 2px #fff; }
+  .fi-name { font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.01em; color: var(--ink); }
+  .fi-body { padding: 16px; }
+  .fi-def { margin: 0; font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--ink); }
+  .fi-actions { display: flex; justify-content: space-between; gap: 10px; }
   .fi-actions .btn { padding: 12px 18px; font-size: 12px; }
 
   /* ===== Vue intensité (écran 2) ===== */
@@ -251,11 +259,20 @@
       <button class="back" id="backBtn">↻ Retour à la roue</button>
     </div>
     <div id="famIntro">
-      <span class="fi-name" id="fiName"></span>
-      <p class="fi-def" id="fiDef"></p>
-      <div class="fi-actions">
-        <button class="btn" id="fiBack">‹ Retour</button>
-        <button class="btn hero" id="fiNext">Choisir l'intensité</button>
+      <div class="fi-inner">
+        <div class="fi-card" id="fiCard">
+          <div class="fi-head">
+            <span class="fi-dot" id="fiDot"></span>
+            <span class="fi-name" id="fiName"></span>
+          </div>
+          <div class="fi-body">
+            <p class="fi-def" id="fiDef"></p>
+          </div>
+        </div>
+        <div class="fi-actions">
+          <button class="btn" id="fiBack">‹ Retour</button>
+          <button class="btn hero" id="fiNext">Choisir l'intensité</button>
+        </div>
       </div>
     </div>
   </div>
@@ -415,8 +432,38 @@ wheel.addEventListener("mouseout", e => {
   hideTip();
 });
 wheel.addEventListener("mousemove", moveTip);
+// tactile (pas de survol/tooltip possible) → étape intermédiaire ; desktop → intensité direct
+const isTouch = window.matchMedia("(hover: none)").matches;
 wheel.addEventListener("click", e => {
-  const s = segFromEvent(e); if (s) openFamily(s.branch);
+  const s = segFromEvent(e); if (!s) return;
+  if (isTouch) openFamIntro(s.branch); else openFamily(s.branch);
+});
+
+// ===== Panneau intermédiaire (tactile) : nom + description avant l'intensité =====
+const famIntro = document.getElementById("famIntro");
+const fiCard = document.getElementById("fiCard");
+const fiDot = document.getElementById("fiDot");
+const fiName = document.getElementById("fiName");
+const fiDef = document.getElementById("fiDef");
+let introBranch = null;
+function resetSegStates() { // nettoie l'état de survol tactile resté collé sous l'overlay
+  segReg.forEach(x => { x.path.classList.remove("lift"); x.icon.style.opacity = "0"; x.chip.style.opacity = "1"; wheel.appendChild(x.chip); });
+}
+function openFamIntro(branch) {
+  introBranch = branch;
+  fiName.textContent = branch.name;
+  fiDef.textContent = branch.def;
+  fiDot.style.background = branch.color;
+  fiCard.style.setProperty("--soft", mix(branch.color, "#ffffff", 0.82)); // teinte douce de l'en-tête, comme le récap
+  hideTip(); resetSegStates();
+  stage.classList.add("detailing");
+  famIntro.classList.add("show");
+}
+function closeFamIntro() { famIntro.classList.remove("show"); stage.classList.remove("detailing"); }
+document.getElementById("fiBack").addEventListener("click", closeFamIntro);
+document.getElementById("fiNext").addEventListener("click", () => {
+  famIntro.classList.remove("show");
+  openFamily(introBranch); // garde 'detailing' + affiche l'écran intensité
 });
 
 // dyades : texte courbé épousant le cercle extérieur (grille de lecture, non cliquable)
