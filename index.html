@@ -78,6 +78,19 @@
     letter-spacing: 0.06em; fill: var(--hint);
   }
 
+  /* ===== Panneau intermédiaire (mobile only) : émotion + description ===== */
+  #famIntro {
+    position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 0 8px;
+    opacity: 0; transform: scale(.96); pointer-events: none;
+    transition: opacity .22s ease, transform .22s ease;
+  }
+  #famIntro.show { opacity: 1; transform: none; pointer-events: auto; }
+  .fi-name { font-size: 26px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.01em; color: var(--accent); }
+  .fi-def { margin: 14px 0 0; font-size: 15.5px; font-weight: 500; line-height: 1.5; color: var(--ink-soft); max-width: 30ch; }
+  .fi-actions { display: flex; gap: 10px; margin-top: 28px; }
+  .fi-actions .btn { padding: 12px 18px; font-size: 12px; }
+
   /* ===== Vue intensité (écran 2) ===== */
   #detail {
     position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
@@ -215,6 +228,12 @@
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   @media (max-width: 480px) { h1 { font-size: 20px; } .seg-label { font-size: 16px; } .card .name { font-size: 24px; } }
+  /* tactile uniquement : plus d'air autour de l'écran intensité (desktop intact) */
+  @media (hover: none) {
+    .stage { margin-top: 30px; }
+    .panel { margin-top: 24px; }
+    #detail { padding: 14px 0; }
+  }
 </style>
 </head>
 <body>
@@ -230,6 +249,14 @@
       <h2 class="detail-q">Quelle est l'intensité de ton émotion ?</h2>
       <div class="cards" id="cards"></div>
       <button class="back" id="backBtn">↻ Retour à la roue</button>
+    </div>
+    <div id="famIntro">
+      <span class="fi-name" id="fiName"></span>
+      <p class="fi-def" id="fiDef"></p>
+      <div class="fi-actions">
+        <button class="btn" id="fiBack">‹ Retour</button>
+        <button class="btn hero" id="fiNext">Choisir l'intensité</button>
+      </div>
     </div>
   </div>
 
