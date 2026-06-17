@@ -24,7 +24,14 @@
       radial-gradient(720px 580px at 6% 4%, rgba(255, 122, 26, 0.08), transparent 60%),
       radial-gradient(760px 600px at 98% 92%, rgba(255, 46, 136, 0.09), transparent 62%);
     --dot-color: rgba(20, 12, 30, 0.04);
+    /* primitives design system */
+    --radius: 3px;
+    --border-mag: 1.8px solid var(--accent);   /* bordure "sticker" magenta */
+    --shadow-hard: 4px 4px 0 var(--hint);       /* ombre dure décalée */
+    --space-actions: 24px;                      /* marche bloc -> rangée de boutons */
   }
+  /* carte "sticker" réutilisable : blanc + bordure magenta + ombre dure + radius */
+  .sticker { background: #fff; border: var(--border-mag); border-radius: var(--radius); box-shadow: var(--shadow-hard); }
   * { box-sizing: border-box; }
   body {
     font-family: 'Archivo', sans-serif;
@@ -69,7 +76,7 @@
   .seg-label {
     text-anchor: middle; dominant-baseline: middle; pointer-events: none;
     font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 14.5px;
-    text-transform: uppercase; letter-spacing: 0.03em; fill: #ff2e88;
+    text-transform: uppercase; letter-spacing: 0.03em; fill: var(--accent);
   }
   .fam-icon { opacity: 0; transition: opacity .15s ease; }
   .hub {
@@ -86,18 +93,13 @@
     transition: opacity .22s ease, transform .22s ease;
   }
   #famIntro.show { opacity: 1; transform: none; pointer-events: auto; }
-  .fi-inner { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 14px; }
-  .fi-card {
-    background: #fff; border: 1.8px solid #ff2e88; box-shadow: 4px 4px 0 #e0186b;
-    border-radius: 3px; overflow: hidden; text-align: left;
-  }
+  .fi-inner { width: 100%; max-width: 360px; display: flex; flex-direction: column; }
+  .fi-card { overflow: hidden; text-align: left; }
   .fi-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: var(--soft); border-bottom: 1px solid var(--line); }
   .fi-dot { width: 14px; height: 14px; border-radius: 50%; flex: none; box-shadow: 0 0 0 2px #fff; }
   .fi-name { font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.01em; color: var(--ink); }
   .fi-body { padding: 16px; }
   .fi-def { margin: 0; font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--ink); }
-  .fi-actions { display: flex; justify-content: space-between; gap: 10px; }
-  .fi-actions .btn { padding: 12px 18px; font-size: 12px; }
 
   /* ===== Vue intensité (écran 2) ===== */
   #detail {
@@ -110,16 +112,15 @@
   .back {
     align-self: center; margin-top: 18px;
     font-family: inherit; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
-    border: none; cursor: pointer; padding: 10px 18px; border-radius: 3px;
+    border: none; cursor: pointer; padding: 10px 18px; border-radius: var(--radius);
     color: var(--accent); background: #fff; box-shadow: inset 0 0 0 1.5px var(--line);
   }
   .back:hover { background: #fff0f6; }
   .cards { display: flex; flex-direction: column; gap: 12px; }
   .card {
-    cursor: pointer; border: none; border-radius: 3px;
+    cursor: pointer;
     display: flex; flex-direction: row; align-items: center; gap: 14px;
     padding: 12px 16px; text-align: left; font-family: inherit; color: var(--ink);
-    background: #fff; box-shadow: 4px 4px 0 #e0186b, inset 0 0 0 1.8px #ff2e88;
     transition: transform .14s ease;
   }
   #detail.show .card { animation: cardIn .28s ease backwards; }
@@ -134,13 +135,13 @@
   .card .desc { font-size: 12.5px; font-weight: 500; line-height: 1.35; margin-top: 5px; opacity: .92; }
 
   /* ===== Zone de sélection (apparaît dès 1 choix) ===== */
-  .panel { margin-top: 16px; background: #fff; border-radius: 3px; box-shadow: inset 0 0 0 1.6px var(--line); padding: 14px 16px; }
+  .panel { margin-top: 16px; background: #fff; border-radius: var(--radius); box-shadow: inset 0 0 0 1.6px var(--line); padding: 14px 16px; }
   .panel[hidden] { display: none; }
   .sel-label { display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--hint); margin-bottom: 10px; }
   .sel-bar { display: flex; align-items: center; gap: 12px; }
   .sel-chips { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; align-items: center; }
   .sel-chip {
-    display: inline-flex; align-items: center; gap: 8px; padding: 6px 9px 6px 10px; border-radius: 3px;
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 9px 6px 10px; border-radius: var(--radius);
     font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; color: var(--ink);
     background: #fff; box-shadow: inset 0 0 0 1.5px var(--c, var(--line));
   }
@@ -181,8 +182,6 @@
   /* cartes douces, structurées en 2 colonnes : sélection (g.) / discussion (d.) */
   .rcard {
     display: grid; grid-template-columns: 40% 60%; overflow: hidden;
-    background: #fff; border-radius: 3px; border: 1.8px solid #ff2e88;
-    box-shadow: 4px 4px 0 #e0186b;
     animation: cardIn .3s ease backwards;
   }
   .rcard-left {
@@ -207,30 +206,31 @@
   .rcard-deep { margin-top: 12px; padding-top: 11px; border-top: 1px dashed rgb(var(--accent-rgb) / 0.35); display: flex; flex-direction: column; gap: 8px; }
   @media (max-width: 460px) { .rcard { grid-template-columns: 1fr; } .rcard-left { border-right: none; border-bottom: 1px solid var(--line); } }
 
-  .recap-actions { display: flex; justify-content: space-between; gap: 8px; margin-top: 24px; }
+  /* rangée de boutons "alignés aux bords du bloc" : règle partagée récap + panneau intermédiaire */
+  .recap-actions, .fi-actions { display: flex; justify-content: space-between; gap: 8px; margin-top: var(--space-actions); }
   button.btn {
     font-family: inherit; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
-    border: none; cursor: pointer; padding: 9px 14px; border-radius: 3px;
+    border: none; cursor: pointer; padding: 9px 14px; border-radius: var(--radius);
     color: var(--accent); background: transparent; box-shadow: inset 0 0 0 1.5px var(--line);
     transition: background-color .18s, box-shadow .18s, transform .05s, opacity .18s;
   }
   button.btn:hover:not(:disabled) { background: #fff0f6; }
   button.btn:active:not(:disabled) { transform: translateY(1px); }
-  button.btn.hero { color: #fff; background: var(--accent); box-shadow: 4px 4px 0 #e0186b; }
-  button.btn.hero:hover:not(:disabled) { background: #e0186b; }
+  button.btn.hero { color: #fff; background: var(--accent); box-shadow: var(--shadow-hard); }
+  button.btn.hero:hover:not(:disabled) { background: var(--hint); }
   button.btn:disabled { opacity: .35; cursor: not-allowed; }
 
   .tip {
     position: fixed; z-index: 6; left: 0; top: 0; max-width: 260px;
     background: #fff; box-shadow: 4px 4px 0 var(--blue-shadow), inset 0 0 0 1.6px var(--line);
-    border-radius: 3px; padding: 11px 13px; display: none; pointer-events: none;
+    border-radius: var(--radius); padding: 11px 13px; display: none; pointer-events: none;
   }
   .tip.show { display: block; }
   .tip-title { display: block; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); }
   .tip-def { display: block; margin-top: 5px; font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--ink-soft); }
   .toast {
     position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 3px;
+    background: var(--ink); color: #fff; padding: 10px 16px; border-radius: var(--radius);
     font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
     opacity: 0; pointer-events: none; transition: all .2s ease; z-index: 5;
   }
@@ -249,7 +249,7 @@
 <div class="wrap">
   <span class="badge">Check-in 1:1</span>
   <h1>Comment tu te sens, là, maintenant ?</h1>
-  <p class="consigne">Choisis jusqu'à <b>2 émotions</b> qui décrivent ton humeur en ce moment.</p>
+  <p class="consigne">Choisis jusqu'à <b>2 émotions</b> qui décrivent ton humeur du moment.</p>
 
   <div class="stage">
     <svg class="wheel" id="wheel" viewBox="0 0 600 600" aria-label="Roue des émotions"></svg>
@@ -260,7 +260,7 @@
     </div>
     <div id="famIntro">
       <div class="fi-inner">
-        <div class="fi-card" id="fiCard">
+        <div class="sticker fi-card" id="fiCard">
           <div class="fi-head">
             <span class="fi-dot" id="fiDot"></span>
             <span class="fi-name" id="fiName"></span>
@@ -534,7 +534,7 @@ function openFamily(branch) {
     // swatch d'intensité : ring 1 (modérée) = branch.color = couleur exacte de la roue
     const fill = ring === 1 ? branch.color : shades[ring];
     const card = document.createElement("button");
-    card.className = "card";
+    card.className = "sticker card";
     card.innerHTML =
       `<span class="swatch" style="background:${fill}"></span>` +
       `<span class="txt">` +
@@ -595,7 +595,7 @@ function openRecap() {
   recapCards.innerHTML = "";
   selected.forEach((s, i) => {
     const card = document.createElement("div");
-    card.className = "rcard";
+    card.className = "sticker rcard";
     card.style.setProperty("--soft", mix(s.color, "#ffffff", 0.82)); // teinte douce du fond gauche
     card.style.animationDelay = (i * 0.06) + "s";
     card.innerHTML =
