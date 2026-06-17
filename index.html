@@ -418,7 +418,10 @@ function segFromEvent(e) {
   const p = e.target.closest(".seg");
   return p ? segReg[+p.dataset.idx] : null;
 }
+// tactile (pas de vrai survol) : on coupe tooltip + lift, qui n'ont pas de sens au tap
+const isTouch = window.matchMedia("(hover: none)").matches;
 wheel.addEventListener("mouseover", e => {
+  if (isTouch) return;
   const s = segFromEvent(e);
   if (!s || s.path.classList.contains("lift")) return; // rien, ou déjà actif (pas de re-réordonnancement)
   wheel.appendChild(s.path); wheel.appendChild(s.icon); // premier plan, au-dessus des voisins
@@ -431,9 +434,7 @@ wheel.addEventListener("mouseout", e => {
   segReg.forEach(x => wheel.appendChild(x.chip)); // tous les chips repassent au-dessus des secteurs
   hideTip();
 });
-wheel.addEventListener("mousemove", moveTip);
-// tactile (pas de survol/tooltip possible) → étape intermédiaire ; desktop → intensité direct
-const isTouch = window.matchMedia("(hover: none)").matches;
+wheel.addEventListener("mousemove", e => { if (!isTouch) moveTip(e); });
 wheel.addEventListener("click", e => {
   const s = segFromEvent(e); if (!s) return;
   if (isTouch) openFamIntro(s.branch); else openFamily(s.branch);
